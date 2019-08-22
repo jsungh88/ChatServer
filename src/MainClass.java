@@ -24,11 +24,10 @@ import org.json.simple.parser.JSONParser;
 public class MainClass {
 	private ServerSocket server;
 	static private HashMap<String, Integer> connectUsers = new HashMap<String, Integer>(); // 접속자 저장객체<userNo,socket>
-	static private HashMap<String, String> connectUsers_roomId = new HashMap<String, String>(); // 접속자
-																								// 저장객체<userNo,roomId>
+	static private HashMap<String, String> connectUsers_roomId = new HashMap<String, String>(); // 접속자 저장객체<userNo,roomId>
 //	static private HashMap<Integer,UserItem> inRoom = new HashMap<Integer,UserItem>(); //방참여자 저장객체<roomId,UserItem>
 //	private ArrayList<UserClass> arr_inRoom = new ArrayList<UserClass>();// 방참여자유저리스트 
-	private HashMap<String, String> map_inRoom = new HashMap<String, String>();// (value:방id, key:유저no)
+	private HashMap<String, String> map_inRoom = new HashMap<String, String>();// (value:방id, key:유저no) 방에 참여중인 유저.
 //	static private ArrayList<UserClass> arr_userlist = new ArrayList<UserClass>();// 방참여자유저리스트
 //	UserItem userItem = new UserItem();//참여자:no,name,picture
 
@@ -41,8 +40,8 @@ public class MainClass {
 		new MainClass();
 	}
 
-	// 메인메소드가 static으로 되어있기 때문에 다른것들을 다 static 으로 하기 귀찮기 때문에
-	// 따로 생성자를 만들어서 진행 - > 메인에서는 호출정도의 기능만 구현하는게 좋다.
+	// 메인메소드가 static으로 되어있기 때문에 다른것들을 다 static으로 하기 귀찮기 때문에
+	// 따로 생성자를 만들어서 진행 -> 메인에서는 호출정도의 기능만 구현하는게 좋다.
 	public MainClass() {
 		try {
 			user_list = new ArrayList<UserClass>();
@@ -65,7 +64,7 @@ public class MainClass {
 			try {
 				while (true) {
 					System.out.println("사용자 접속 대기");
-					Socket socket = server.accept();// 만약 사용자가 접속하면,
+					Socket socket = server.accept();// 만약 사용자가 접속하면, socket이 연결된다.
 					System.out.println("socket:" + socket);
 					System.out.println("사용자가 접속하였습니다.");
 					// 접속자 정보를 처리하는 스레드 가동
@@ -209,7 +208,7 @@ public class MainClass {
 
 		// 방에 속한 멤버정보 불러오기
 		public void getInRoomMembers(String roomId) throws SQLException, ClassNotFoundException {
-			String host = "jdbc:mysql://13.209.108.67:3306/project?useSSL=false&serverTimezone=UTC&characterEncoding=utf8";
+			String host = "jdbc:mysql://[host_address]:3306/[database]?useSSL=false&serverTimezone=UTC&characterEncoding=utf8";
 			String user = "root";
 			String pw = "Root1234#";
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -245,9 +244,9 @@ public class MainClass {
 //			String str = dayTime.format(new Date(time));
 //			System.out.println("현재시간:"+str);
 //			
-			String host = "jdbc:mysql://13.209.108.67:3306/project?useSSL=false&serverTimezone=UTC&characterEncoding=utf8";
-			String user = "root";
-			String pw = "Root1234#";
+			String host = "jdbc:mysql://[host_address]:3306/[database_name]?useSSL=false&serverTimezone=UTC&characterEncoding=utf8";
+			String user = "user_id";
+			String pw = "password";
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(host, user, pw);
 			Statement stmt = conn.createStatement();
@@ -640,9 +639,9 @@ public class MainClass {
 
 		// 방에 속한 멤버정보 불러오기
 		public void getInRoomMembers(String roomId) throws SQLException, ClassNotFoundException {
-			String host = "jdbc:mysql://13.209.108.67:3306/project?useSSL=false&serverTimezone=UTC&characterEncoding=utf8";
-			String user = "root";
-			String pw = "Root1234#";
+			String host = "jdbc:mysql://[host_address]:3306/[database_name]?useSSL=false&serverTimezone=UTC&characterEncoding=utf8";
+			String user = "[user_id]";
+			String pw = "[password]";
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(host, user, pw);
 			Statement stmt = conn.createStatement();
@@ -671,9 +670,9 @@ public class MainClass {
 		public void saveMessage(String roomId, String who, String msg, String sender, String userNo, String userName,
 				String userImage) throws ClassNotFoundException, SQLException {
 
-			String host = "jdbc:mysql://13.209.108.67:3306/project?useSSL=false&serverTimezone=UTC&characterEncoding=utf8";
-			String user = "root";
-			String pw = "Root1234#";
+			String host = "jdbc:mysql://[host_address]:3306/[database_name]?useSSL=false&serverTimezone=UTC&characterEncoding=utf8";
+			String user = "[user_id]";
+			String pw = "[password]";
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(host, user, pw);
 			Statement stmt = conn.createStatement();
@@ -694,9 +693,9 @@ public class MainClass {
 		public void saveNotice(String roomId, String who, String msg, String userNo)
 				throws ClassNotFoundException, SQLException {
 
-			String host = "jdbc:mysql://13.209.108.67:3306/project?useSSL=false&serverTimezone=UTC&characterEncoding=utf8";
-			String user = "root";
-			String pw = "Root1234#";
+			String host = "jdbc:mysql://[host_address]:3306/[database_name]?useSSL=false&serverTimezone=UTC&characterEncoding=utf8";
+			String user = "[user_id]";
+			String pw = "[password]";
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(host, user, pw);
 			Statement stmt = conn.createStatement();
@@ -744,9 +743,9 @@ public class MainClass {
 	public class JdbcConnect {
 
 		public void getParticipants(Integer roomId) throws SQLException, ClassNotFoundException { // 채팅방 참여자 불러오기
-			String host = "jdbc:mysql://13.209.108.67:3306/project?useSSL=false&serverTimezone=UTC&characterEncoding=utf8";
-			String user = "root";
-			String pw = "Root1234#";
+			String host = "jdbc:mysql://[host_address]:3306/[database_name]?useSSL=false&serverTimezone=UTC&characterEncoding=utf8";
+			String user = "[user_id]";
+			String pw = "[password]";
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(host, user, pw);
 			Statement stmt = conn.createStatement();

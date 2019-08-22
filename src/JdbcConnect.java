@@ -6,9 +6,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class JdbcConnect {
-	static String host = "jdbc:mysql://13.209.108.67:3306/project?useSSL=false&serverTimezone=UTC";
-	static String user = "root";
-	static String pw = "Root1234#";
+	static String host = "jdbc:mysql://[host_address]:3306/[database_name]?useSSL=false&serverTimezone=UTC";
+	static String user = "[user_id]";
+	static String pw = "[password]";
 
 	public void getParticipants(Integer roomId) throws SQLException, ClassNotFoundException { // 채팅방 참여자 불러오기
 		Class.forName("com.mysql.cj.jdbc.Driver");
